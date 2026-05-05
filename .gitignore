@@ -1,0 +1,13 @@
+# Environment — jangan pernah di-commit!
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Docker volume data (kalau mount lokal)
+data/

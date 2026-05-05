@@ -1,0 +1,30 @@
+groups:
+  - name: portomoran_alerts
+    rules:
+
+      - alert: AppDown
+        expr: up{job="nginx"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "portomoran app DOWN"
+          description: "Aplikasi tidak dapat dijangkau selama lebih dari 1 menit."
+
+      - alert: HighErrorRate
+        expr: rate(nginx_http_requests_total{status=~"5.."}[5m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Error rate tinggi"
+          description: "Lebih dari 1 request 5xx per detik dalam 5 menit terakhir."
+
+      - alert: HighActiveConnections
+        expr: nginx_connections_active > 500
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Koneksi aktif Nginx tinggi"
+          description: "{{ $value }} koneksi aktif saat ini."

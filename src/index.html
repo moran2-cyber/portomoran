@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morando Malau — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">MM</div>
+    <ul class="nav-links">
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#experience">Karier</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Edu</a></li>
+      <li><a href="#contact">Kontak</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">Tentang</a>
+    <a href="#experience">Karier</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Edu</a>
+    <a href="#contact">Kontak</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">Sistem Informasi · Universitas Nasional</div>
+    <h1>
+      <span class="name-first">Morando</span>
+      <span class="name-last">Malau</span>
+    </h1>
+    <p class="hero-sub">Data Analyst &nbsp;·&nbsp; DevOps Engineer &nbsp;·&nbsp; Full Stack Developer</p>
+    <p class="hero-bio">
+      Mahasiswa semester 7 yang memadukan 3 tahun pengalaman industri otomotif
+      dengan keahlian teknologi modern dari magang di PT Transportasi Jakarta.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-main">Hubungi Saya</a>
+      <a href="#experience" class="btn-line">Lihat Karier</a>
+    </div>
+    <div class="hero-chips">
+      <span>🚗 3+ thn Otomotif</span>
+      <span>📊 Data Analyst</span>
+      <span>⚙️ DevOps</span>
+      <span>🌐 Int'l Seminar</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="sec-label">01 · Tentang</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>Bukan <em>perjalanan</em><br/>yang biasa.</h2>
+        <p>
+          Nama saya <strong>Morando Malau</strong> — mahasiswa Sistem Informasi semester 7 di Universitas Nasional, Jakarta. Saya memulai karier bukan dari bangku kuliah, melainkan dari lantai industri otomotif selama lebih dari <strong>tiga tahun</strong>.
+        </p>
+        <p>
+          Pengalaman itu membentuk cara saya berpikir: sistematis, tahan tekanan, berorientasi pada solusi nyata. Saat terjun ke teknologi, saya membawa mindset itu — dan berhasil. Magang di <strong>PT Transportasi Jakarta</strong> membuktikannya.
+        </p>
+        <p>
+          Saya juga pernah menjadi panitia <strong>seminar internasional</strong>, mengasah kepemimpinan dan komunikasi lintas budaya di luar kelas.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-n" data-to="3">0</span><sup>+</sup>
+          <span class="stat-l">Tahun Industri</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-n" data-to="6">0</span>
+          <span class="stat-l">Bulan Magang</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-n" data-to="1">0</span>
+          <span class="stat-l">Seminar Int'l</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-n" data-to="7">0</span>
+          <span class="stat-l">Semester</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section sec-alt">
+    <div class="sec-label">02 · Karier</div>
+    <h2 class="sec-title">Jejak <em>Pengalaman</em></h2>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-left">
+          <div class="exp-year">2024</div>
+          <div class="exp-dur">4 Bulan</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">DevOps Engineer Intern</div>
+          <div class="exp-co">PT Transportasi Jakarta · TransJakarta</div>
+          <p>Mengelola infrastruktur cloud, membangun pipeline CI/CD, containerization dengan Docker & Kubernetes, dan monitoring sistem real-time untuk layanan transportasi publik ibukota.</p>
+          <div class="exp-tags">
+            <span>Docker</span><span>Kubernetes</span><span>CI/CD</span>
+            <span>Linux</span><span>Cloud</span><span>Git</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-left">
+          <div class="exp-year">2024</div>
+          <div class="exp-dur">2 Bulan</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">Data Analyst Intern</div>
+          <div class="exp-co">PT Transportasi Jakarta · TransJakarta</div>
+          <p>Menganalisis data operasional armada & penumpang, membangun dashboard untuk pengambilan keputusan manajemen menggunakan Python, SQL, dan Tableau.</p>
+          <div class="exp-tags">
+            <span>Python</span><span>SQL</span><span>Tableau</span>
+            <span>Pandas</span><span>ETL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-left">
+          <div class="exp-year">2020–23</div>
+          <div class="exp-dur">3+ Tahun</div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-role">Profesional Industri Otomotif</div>
+          <div class="exp-co">Sektor Otomotif · Jakarta</div>
+          <p>Tiga tahun di industri otomotif membangun fondasi karakter: disiplin tinggi, problem-solving di bawah tekanan, dan manajemen operasional yang menjadi keunggulan kompetitif di dunia teknologi.</p>
+          <div class="exp-tags">
+            <span>Operasional</span><span>Manajemen</span><span>Problem Solving</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="sec-label">03 · Keahlian</div>
+    <h2 class="sec-title">Tech <em>Stack</em></h2>
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="sg-title">📊 Data & Analytics</div>
+        <div class="skill-bars">
+          <div class="sb"><div class="sb-top"><span>Python</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>SQL</span><span>82%</span></div><div class="sb-track"><div class="sb-fill" data-w="82"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Pandas</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Tableau</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Power BI</span><span>68%</span></div><div class="sb-track"><div class="sb-fill" data-w="68"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="sg-title">⚙️ DevOps & Cloud</div>
+        <div class="skill-bars">
+          <div class="sb"><div class="sb-top"><span>Git</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Docker</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Linux</span><span>78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>CI/CD</span><span>72%</span></div><div class="sb-track"><div class="sb-fill" data-w="72"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Kubernetes</span><span>65%</span></div><div class="sb-track"><div class="sb-fill" data-w="65"></div></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="sg-title">🌐 Web & Lainnya</div>
+        <div class="skill-bars">
+          <div class="sb"><div class="sb-top"><span>MS Excel</span><span>88%</span></div><div class="sb-track"><div class="sb-fill" data-w="88"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>HTML/CSS</span><span>78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>JavaScript</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Manaj. Proyek</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+          <div class="sb"><div class="sb-top"><span>Presentasi</span><span>82%</span></div><div class="sb-track"><div class="sb-fill" data-w="82"></div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="section sec-alt">
+    <div class="sec-label">04 · Pendidikan & Organisasi</div>
+    <h2 class="sec-title">Akademik & <em>Kontribusi</em></h2>
+    <div class="edu-grid">
+
+      <div class="edu-card reveal">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-period">2021 — 2025</div>
+        <div class="edu-deg">S1 Sistem Informasi</div>
+        <div class="edu-school">Universitas Nasional · Jakarta</div>
+        <p>Mendalami rekayasa perangkat lunak, manajemen basis data, analisis sistem, dan infrastruktur TI. Semester 7, fokus pada data engineering.</p>
+        <span class="edu-chip">Semester 7 · Aktif</span>
+      </div>
+
+      <div class="edu-card reveal">
+        <div class="edu-icon">🌐</div>
+        <div class="edu-period">2023</div>
+        <div class="edu-deg">Committee — Seminar Internasional</div>
+        <div class="edu-school">Universitas Nasional · Kemahasiswaan</div>
+        <p>Panitia inti penyelenggaraan seminar internasional — koordinasi peserta, komunikasi dengan narasumber luar negeri, dan manajemen logistik acara berskala global.</p>
+        <span class="edu-chip chip-2">International · Committee</span>
+      </div>
+
+      <div class="edu-card reveal">
+        <div class="edu-icon">⚡</div>
+        <div class="edu-period">Soft Skills</div>
+        <div class="edu-deg">Kemampuan Lintas Industri</div>
+        <div class="edu-school">Otomotif · Teknologi · Akademik</div>
+        <p>Kepemimpinan, komunikasi lintas budaya, manajemen waktu, adaptabilitas tinggi, dan critical thinking yang terasah dari tiga dunia berbeda.</p>
+        <span class="edu-chip chip-3">Leadership · Adaptability</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-sec">
+    <div class="sec-label">05 · Kontak</div>
+    <div class="contact-wrap">
+      <div class="contact-left reveal">
+        <h2>Punya <em>ide</em>?<br/>Mari ngobrol.</h2>
+        <p>Terbuka untuk kolaborasi proyek, diskusi teknis, magang, atau posisi full-time. Jangan ragu untuk menghubungi.</p>
+        <div class="clinks">
+          <a href="mailto:morando.malau@email.com" class="clink">
+            <span class="clink-icon">✉</span>
+            <div><small>Email</small><strong>morando.malau@email.com</strong></div>
+          </a>
+          <a href="https://linkedin.com/in/morandoms" target="_blank" class="clink">
+            <span class="clink-icon">in</span>
+            <div><small>LinkedIn</small><strong>linkedin.com/in/morandoms</strong></div>
+          </a>
+          <a href="https://github.com/morandoms" target="_blank" class="clink">
+            <span class="clink-icon">⌥</span>
+            <div><small>GitHub</small><strong>github.com/morandoms</strong></div>
+          </a>
+        </div>
+        <div class="cloc">
+          <span class="cloc-dot"></span>Jakarta, Indonesia · WIB (UTC+7)
+        </div>
+      </div>
+
+      <form class="cform reveal" id="cform" novalidate>
+        <div class="cfield">
+          <label for="cname">Nama Lengkap</label>
+          <input type="text" id="cname" placeholder="Nama kamu..." required />
+        </div>
+        <div class="cfield">
+          <label for="cemail">Email</label>
+          <input type="email" id="cemail" placeholder="email@domain.com" required />
+        </div>
+        <div class="cfield">
+          <label for="csubj">Keperluan</label>
+          <select id="csubj">
+            <option value="">Pilih keperluan...</option>
+            <option>Kolaborasi Proyek</option>
+            <option>Kesempatan Magang</option>
+            <option>Full-time Position</option>
+            <option>Diskusi Teknis</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="cfield">
+          <label for="cmsg">Pesan</label>
+          <textarea id="cmsg" placeholder="Ceritakan keperluan kamu..." required></textarea>
+        </div>
+        <button type="submit" id="csend">Kirim Pesan →</button>
+        <div class="cfeedback" id="cfeedback"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <strong>Morando Malau</strong>
+      <span>Sistem Informasi · Jakarta · 2025</span>
+    </div>
+    <div class="footer-links">
+      <a href="#home">↑ Atas</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">Dibuat dengan ♥</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

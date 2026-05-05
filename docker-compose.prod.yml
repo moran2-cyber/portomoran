@@ -1,0 +1,44 @@
+version: "3.9"
+
+# Production only:
+# docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+
+  app:
+    ports:
+      - "127.0.0.1:8080:80"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  prometheus:
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    ports:
+      - "127.0.0.1:3000:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  alertmanager:
+    ports:
+      - "127.0.0.1:9093:9093"
+
+  cloudflared:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"

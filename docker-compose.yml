@@ -1,0 +1,83 @@
+version: "3.9"
+
+services:
+
+  app:
+    image: ghcr.io/${GITHUB_REPOSITORY:-portomoran/portomoran}:${IMAGE_TAG:-latest}
+    container_name: portomoran_app
+    restart: unless-stopped
+    networks:
+      - portomoran_net
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.1.0
+    container_name: portomoran_nginx_exporter
+    restart: unless-stopped
+    command:
+      - "-nginx.scrape-uri=http://app/stub_status"
+    networks:
+      - portomoran_net
+    depends_on:
+      - app
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: portomoran_prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=15d"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alert.rules:/etc/prometheus/alert.rules:ro
+      - prometheus_data:/prometheus
+    networks:
+      - portomoran_net
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: portomoran_alertmanager
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    networks:
+      - portomoran_net
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: portomoran_grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=https://${DOMAIN}/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - portomoran_net
+
+  # ── Cloudflare Tunnel (CLI, tanpa Zero Trust dashboard) ──
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: portomoran_cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    volumes:
+      - cloudflared_data:/home/nonroot/.cloudflared
+    networks:
+      - portomoran_net
+    depends_on:
+      - app
+
+networks:
+  portomoran_net:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  cloudflared_data:
