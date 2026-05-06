@@ -62,7 +62,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
-      url: https://${{ secrets.DOMAIN }}
+      url: https://moran-porto.my.id
 
     steps:
       - name: Deploy via SSH
