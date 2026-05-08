@@ -14,7 +14,6 @@ jobs:
 
   # ══════════════════════════════════════════════
   # JOB 1: TEST
-  # Validasi HTML, JS, dan performa sebelum build
   # ══════════════════════════════════════════════
   test:
     name: 🧪 Test
@@ -29,52 +28,42 @@ jobs:
         with:
           node-version: '20'
 
-      # ── HTMLHint: validasi syntax HTML ──────────
-      - name: Install HTMLHint
-        run: npm install -g htmlhint
+      - name: Install tools
+        run: npm install -g htmlhint eslint @eslint/js stylelint stylelint-config-standard
 
       - name: Run HTMLHint
         run: |
           echo "🔍 Validasi HTML..."
-          htmlhint src/**/*.html --config .htmlhintrc
+          htmlhint "src/**/*.html" --config .htmlhintrc
           echo "✅ HTML valid!"
-
-      # ── ESLint: validasi syntax JS ──────────────
-      - name: Install ESLint
-        run: npm install -g eslint @eslint/js
 
       - name: Run ESLint
         run: |
           echo "🔍 Validasi JavaScript..."
           if find src -name "*.js" | grep -q .; then
-            eslint src/**/*.js --no-eslintrc -c eslint.config.mjs
+            eslint "src/**/*.js"
             echo "✅ JavaScript valid!"
           else
-            echo "⚠️  Tidak ada file JS ditemukan, skip."
+            echo "⚠️  Tidak ada file JS, skip."
           fi
 
-      # ── Stylelint: validasi syntax CSS ─────────
-      - name: Install Stylelint
-        run: npm install -g stylelint stylelint-config-standard
-
-      - name: Run ESLint
+      - name: Run Stylelint
         run: |
-          echo "Validasi JavaScript..."
-          if find src -name "*.js" | grep -q .; then
-            eslint src/**/*.js
-            echo "JavaScript valid!"
+          echo "🔍 Validasi CSS..."
+          if find src -name "*.css" | grep -q .; then
+            stylelint "src/**/*.css" --config .stylelintrc.json
+            echo "✅ CSS valid!"
           else
-            echo "Tidak ada file JS ditemukan, skip."
+            echo "⚠️  Tidak ada file CSS, skip."
           fi
 
   # ══════════════════════════════════════════════
   # JOB 2: BUILD & PUSH IMAGE
-  # Hanya jalan kalau Job 1 (test) sukses
   # ══════════════════════════════════════════════
   build:
     name: 🐳 Build & Push Image
     runs-on: self-hosted
-    needs: test        # ← tunggu test selesai dulu
+    needs: test
     permissions:
       contents: read
       packages: write
@@ -97,7 +86,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tag & label)
+      - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -115,45 +104,36 @@ jobs:
 
   # ══════════════════════════════════════════════
   # JOB 3: DEPLOY KE PRODUCTION
-  # Hanya jalan kalau Job 2 (build) sukses
   # ══════════════════════════════════════════════
   deploy:
     name: 🚀 Deploy to Production
     runs-on: self-hosted
-    needs: build       # ← tunggu build selesai dulu
+    needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
       - name: Deploy
         run: |
           cd /opt/portomoran
-
-          # Pull kode terbaru dari GitHub
           git pull origin main
 
-          # Login ke GHCR untuk pull image
           echo ${{ secrets.GITHUB_TOKEN }} | \
             docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          # Update IMAGE_TAG di .env ke SHA commit terbaru
           sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ needs.build.outputs.sha_short }}/" .env
 
-          # Pull image terbaru
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
                          pull app
 
-          # Restart hanya container app (monitoring tetap jalan)
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
                          up -d --no-deps app
 
-          # Bersihkan image lama
           docker image prune -f
 
           echo "✅ Deploy ${{ needs.build.outputs.sha_short }} selesai — $(date -u)"
 
-      # ── Health Check ───────────────────────────
       - name: Health Check
         run: |
           sleep 10
