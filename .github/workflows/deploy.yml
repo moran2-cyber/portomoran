@@ -8,13 +8,73 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: moran2-cyber/portomoran
 
 jobs:
 
+  # ══════════════════════════════════════════════
+  # JOB 1: TEST
+  # Validasi HTML, JS, dan performa sebelum build
+  # ══════════════════════════════════════════════
+  test:
+    name: 🧪 Test
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── HTMLHint: validasi syntax HTML ──────────
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint
+        run: |
+          echo "🔍 Validasi HTML..."
+          htmlhint src/**/*.html --config .htmlhintrc
+          echo "✅ HTML valid!"
+
+      # ── ESLint: validasi syntax JS ──────────────
+      - name: Install ESLint
+        run: npm install -g eslint @eslint/js
+
+      - name: Run ESLint
+        run: |
+          echo "🔍 Validasi JavaScript..."
+          if find src -name "*.js" | grep -q .; then
+            eslint src/**/*.js --no-eslintrc -c eslint.config.mjs
+            echo "✅ JavaScript valid!"
+          else
+            echo "⚠️  Tidak ada file JS ditemukan, skip."
+          fi
+
+      # ── Stylelint: validasi syntax CSS ─────────
+      - name: Install Stylelint
+        run: npm install -g stylelint stylelint-config-standard
+
+      - name: Run Stylelint
+        run: |
+          echo "🔍 Validasi CSS..."
+          if find src -name "*.css" | grep -q .; then
+            stylelint "src/**/*.css" --config .stylelintrc.json
+            echo "✅ CSS valid!"
+          else
+            echo "⚠️  Tidak ada file CSS ditemukan, skip."
+          fi
+
+  # ══════════════════════════════════════════════
+  # JOB 2: BUILD & PUSH IMAGE
+  # Hanya jalan kalau Job 1 (test) sukses
+  # ══════════════════════════════════════════════
   build:
-    name: Build & Push Image
-    runs-on: ubuntu-latest
+    name: 🐳 Build & Push Image
+    runs-on: self-hosted
+    needs: test        # ← tunggu test selesai dulu
     permissions:
       contents: read
       packages: write
@@ -23,21 +83,21 @@ jobs:
       sha_short: ${{ steps.sha.outputs.sha_short }}
 
     steps:
-      - name: Checkout
+      - name: Checkout kode
         uses: actions/checkout@v4
 
-      - name: Short SHA
+      - name: Ambil short SHA
         id: sha
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Login ke GHCR
+      - name: Login ke GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract metadata (tag & label)
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -46,17 +106,21 @@ jobs:
             type=sha,prefix=,format=short
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build & Push
+      - name: Build & Push image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
 
+  # ══════════════════════════════════════════════
+  # JOB 3: DEPLOY KE PRODUCTION
+  # Hanya jalan kalau Job 2 (build) sukses
+  # ══════════════════════════════════════════════
   deploy:
-    name: Deploy to Production
+    name: 🚀 Deploy to Production
     runs-on: self-hosted
-    needs: build
+    needs: build       # ← tunggu build selesai dulu
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
@@ -64,25 +128,32 @@ jobs:
         run: |
           cd /opt/portomoran
 
+          # Pull kode terbaru dari GitHub
           git pull origin main
 
+          # Login ke GHCR untuk pull image
           echo ${{ secrets.GITHUB_TOKEN }} | \
             docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+          # Update IMAGE_TAG di .env ke SHA commit terbaru
           sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ needs.build.outputs.sha_short }}/" .env
 
+          # Pull image terbaru
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
                          pull app
 
+          # Restart hanya container app (monitoring tetap jalan)
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
                          up -d --no-deps app
 
+          # Bersihkan image lama
           docker image prune -f
 
-          echo "✅ Deploy ${{ needs.build.outputs.sha_short }} selesai"
+          echo "✅ Deploy ${{ needs.build.outputs.sha_short }} selesai — $(date -u)"
 
+      # ── Health Check ───────────────────────────
       - name: Health Check
         run: |
           sleep 10
@@ -91,4 +162,4 @@ jobs:
             echo "❌ Health check gagal! HTTP $STATUS"
             exit 1
           fi
-          echo "✅ OK — HTTP $STATUS"
+          echo "✅ Website sehat — HTTP $STATUS"
