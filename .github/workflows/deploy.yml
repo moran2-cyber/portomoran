@@ -59,12 +59,12 @@ jobs:
 
       - name: Run ESLint
         run: |
-          echo "🔍 Validasi JavaScript..."
+          echo "Validasi JavaScript..."
           if find src -name "*.js" | grep -q .; then
             eslint src/**/*.js
-            echo "✅ JavaScript valid!"
+            echo "JavaScript valid!"
           else
-            echo "⚠️  Tidak ada file JS ditemukan, skip."
+            echo "Tidak ada file JS ditemukan, skip."
           fi
 
   # ══════════════════════════════════════════════
