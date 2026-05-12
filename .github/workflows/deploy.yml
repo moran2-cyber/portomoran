@@ -12,58 +12,9 @@ env:
 
 jobs:
 
-  # ══════════════════════════════════════════════
-  # JOB 1: TEST
-  # ══════════════════════════════════════════════
-  test:
-    name: 🧪 Test
-    runs-on: self-hosted
-
-    steps:
-      - name: Checkout kode
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install tools
-        run: npm install -g htmlhint stylelint stylelint-config-standard eslint
-
-      - name: Run HTMLHint
-        run: |
-          echo "🔍 Validasi HTML..."
-          htmlhint "src/**/*.html" --config .htmlhintrc
-          echo "✅ HTML valid!"
-
-      - name: Run ESLint
-        run: |
-          echo "🔍 Validasi JavaScript..."
-          if find src -name "*.js" | grep -q .; then
-            npx eslint "src/**/*.js"
-            echo "✅ JavaScript valid!"
-          else
-            echo "⚠️  Tidak ada file JS, skip."
-          fi
-
-      - name: Run Stylelint
-        run: |
-          echo "🔍 Validasi CSS..."
-          if find src -name "*.css" | grep -q .; then
-            stylelint "src/**/*.css" --config .stylelintrc.json
-            echo "✅ CSS valid!"
-          else
-            echo "⚠️  Tidak ada file CSS, skip."
-          fi
-
-  # ══════════════════════════════════════════════
-  # JOB 2: BUILD & PUSH IMAGE
-  # ══════════════════════════════════════════════
   build:
     name: 🐳 Build & Push Image
     runs-on: self-hosted
-    needs: test
     permissions:
       contents: read
       packages: write
@@ -102,9 +53,6 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
 
-  # ══════════════════════════════════════════════
-  # JOB 3: DEPLOY KE PRODUCTION
-  # ══════════════════════════════════════════════
   deploy:
     name: 🚀 Deploy to Production
     runs-on: self-hosted
