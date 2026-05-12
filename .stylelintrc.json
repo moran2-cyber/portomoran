@@ -1,8 +1,5 @@
 {
-  "extends": ["stylelint-config-standard"],
   "rules": {
-    "declaration-block-single-line-max-declarations": null,
-    "media-feature-range-notation": null,
     "color-no-invalid-hex": true,
     "unit-no-unknown": true,
     "property-no-unknown": true,
