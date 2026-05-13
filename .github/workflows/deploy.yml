@@ -8,12 +8,16 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: moran2-cyber/portomoran
+  IMAGE_FRONTEND: moran2-cyber/portomoran
+  IMAGE_API: moran2-cyber/portomoran-api
 
 jobs:
 
-  build:
-    name: 🐳 Build & Push Image
+  # ══════════════════════════════════════════════
+  # JOB 1: BUILD FRONTEND
+  # ══════════════════════════════════════════════
+  build-frontend:
+    name: 🐳 Build Frontend
     runs-on: self-hosted
     permissions:
       contents: read
@@ -30,33 +34,75 @@ jobs:
         id: sha
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Login ke GitHub Container Registry
+      - name: Login ke GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract metadata frontend
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}
           tags: |
             type=sha,prefix=,format=short
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build & Push image
+      - name: Build & Push frontend
         uses: docker/build-push-action@v5
         with:
           context: .
+          dockerfile: Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
 
+  # ══════════════════════════════════════════════
+  # JOB 2: BUILD API
+  # ══════════════════════════════════════════════
+  build-api:
+    name: 🐳 Build API
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Login ke GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata API
+        id: meta-api
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_API }}
+          tags: |
+            type=sha,prefix=,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build & Push API
+        uses: docker/build-push-action@v5
+        with:
+          context: ./api
+          dockerfile: ./api/Dockerfile
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ steps.meta-api.outputs.tags }}
+
+  # ══════════════════════════════════════════════
+  # JOB 3: DEPLOY
+  # ══════════════════════════════════════════════
   deploy:
     name: 🚀 Deploy to Production
     runs-on: self-hosted
-    needs: build
+    needs: [build-frontend, build-api]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
@@ -68,26 +114,38 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | \
             docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ needs.build.outputs.sha_short }}/" .env
+          # Update IMAGE_TAG
+          sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ needs.build-frontend.outputs.sha_short }}/" .env
 
+          # Pull image terbaru
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
-                         pull app
+                         pull app api
 
+          # Restart frontend dan API (db & redis tetap jalan)
           docker compose -f docker-compose.yml \
                          -f docker-compose.prod.yml \
-                         up -d --no-deps app
+                         up -d --no-deps app api
 
           docker image prune -f
 
-          echo "✅ Deploy ${{ needs.build.outputs.sha_short }} selesai — $(date -u)"
+          echo "✅ Deploy ${{ needs.build-frontend.outputs.sha_short }} selesai — $(date -u)"
 
-      - name: Health Check
+      - name: Health Check Frontend
         run: |
           sleep 30
           STATUS=$(curl -sf -o /dev/null -w "%{http_code}" https://moran-porto.my.id/health)
           if [ "$STATUS" != "200" ]; then
-            echo "❌ Health check gagal! HTTP $STATUS"
+            echo "❌ Frontend health check gagal! HTTP $STATUS"
             exit 1
           fi
-          echo "✅ Website sehat — HTTP $STATUS"
+          echo "✅ Frontend sehat — HTTP $STATUS"
+
+      - name: Health Check API
+        run: |
+          STATUS=$(curl -sf -o /dev/null -w "%{http_code}" https://api.moran-porto.my.id/health)
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ API health check gagal! HTTP $STATUS"
+            exit 1
+          fi
+          echo "✅ API sehat — HTTP $STATUS"

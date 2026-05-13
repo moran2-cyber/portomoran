@@ -1,44 +1,49 @@
-version: "3.9"
-
-# Production only:
-# docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-
 services:
 
   app:
     ports:
       - "127.0.0.1:8080:80"
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: 128M
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
 
-  prometheus:
+  api:
     ports:
-      - "127.0.0.1:9090:9090"
+      - "127.0.0.1:4000:4000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  grafana:
-    ports:
-      - "127.0.0.1:3000:3000"
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: 256M
+  db:
+    # Tidak expose ke publik — hanya internal Docker network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  alertmanager:
-    ports:
-      - "127.0.0.1:9093:9093"
-
-  cloudflared:
+  redis:
+    # Tidak expose ke publik — hanya internal Docker network
     logging:
       driver: "json-file"
       options:
         max-size: "5m"
         max-file: "2"
+
+  prometheus:
+    # Expose ke semua interface supaya bisa diakses via IP:9090
+    ports:
+      - "9090:9090"
+
+  grafana:
+    # Expose ke semua interface supaya bisa diakses via IP:3000
+    ports:
+      - "3000:3000"
+
+  alertmanager:
+    ports:
+      - "127.0.0.1:9093:9093"

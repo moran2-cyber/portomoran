@@ -1,14 +1,72 @@
-version: "3.9"
-
 services:
 
+  # ── Frontend (Nginx + HTML/CSS/JS) ────────────────
   app:
-    image: ghcr.io/${GITHUB_REPOSITORY:-portomoran/portomoran}:${IMAGE_TAG:-latest}
+    image: ghcr.io/moran2-cyber/portomoran:${IMAGE_TAG:-latest}
     container_name: portomoran_app
     restart: unless-stopped
     networks:
       - portomoran_net
 
+  # ── Backend API (Node.js + Express) ───────────────
+  api:
+    image: ghcr.io/moran2-cyber/portomoran-api:${IMAGE_TAG:-latest}
+    container_name: portomoran_api
+    restart: unless-stopped
+    environment:
+      - PORT=4000
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=redis
+      - FRONTEND_URL=https://moran-porto.my.id
+    networks:
+      - portomoran_net
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── PostgreSQL Database ────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: portomoran_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./api/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portomoran_net
+
+  # ── Redis (Caching) ────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: portomoran_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portomoran_net
+
+  # ── Nginx Exporter ─────────────────────────────────
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:1.1.0
     container_name: portomoran_nginx_exporter
@@ -20,6 +78,7 @@ services:
     depends_on:
       - app
 
+  # ── Prometheus ─────────────────────────────────────
   prometheus:
     image: prom/prometheus:v2.51.0
     container_name: portomoran_prometheus
@@ -34,6 +93,7 @@ services:
     networks:
       - portomoran_net
 
+  # ── Alertmanager ───────────────────────────────────
   alertmanager:
     image: prom/alertmanager:v0.27.0
     container_name: portomoran_alertmanager
@@ -43,6 +103,7 @@ services:
     networks:
       - portomoran_net
 
+  # ── Grafana ────────────────────────────────────────
   grafana:
     image: grafana/grafana:10.4.0
     container_name: portomoran_grafana
@@ -51,33 +112,30 @@ services:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SERVER_ROOT_URL=https://${DOMAIN}/grafana/
-      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_SERVER_ROOT_URL=https://monitoring.moran-porto.my.id
+      - GF_SERVER_SERVE_FROM_SUB_PATH=false
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
       - portomoran_net
 
-  # ── Cloudflare Tunnel (CLI, tanpa Zero Trust dashboard) ──
+  # ── Cloudflare Tunnel ──────────────────────────────
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: portomoran_cloudflared
     restart: unless-stopped
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    user: root
+    network_mode: host
+    command: tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
     volumes:
-      - cloudflared_data:/home/nonroot/.cloudflared
-    networks:
-      - portomoran_net
-    depends_on:
-      - app
+      - /home/moran/.cloudflared:/etc/cloudflared
 
 networks:
   portomoran_net:
     driver: bridge
 
 volumes:
+  postgres_data:
+  redis_data:
   prometheus_data:
   grafana_data:
-  cloudflared_data:

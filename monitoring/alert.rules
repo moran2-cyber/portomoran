@@ -2,29 +2,50 @@ groups:
   - name: portomoran_alerts
     rules:
 
+      # ── App ───────────────────────────────────────
       - alert: AppDown
         expr: up{job="nginx"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "portomoran app DOWN"
-          description: "Aplikasi tidak dapat dijangkau selama lebih dari 1 menit."
+          summary: "Frontend DOWN"
+          description: "Frontend tidak dapat dijangkau selama lebih dari 1 menit."
 
-      - alert: HighErrorRate
-        expr: rate(nginx_http_requests_total{status=~"5.."}[5m]) > 1
+      # ── API ───────────────────────────────────────
+      - alert: APIDown
+        expr: up{job="api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "API DOWN"
+          description: "Backend API tidak dapat dijangkau selama lebih dari 1 menit."
+
+      - alert: APIHighErrorRate
+        expr: rate(api_http_requests_total{status=~"5.."}[5m]) > 1
         for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "Error rate tinggi"
+          summary: "API error rate tinggi"
           description: "Lebih dari 1 request 5xx per detik dalam 5 menit terakhir."
 
-      - alert: HighActiveConnections
-        expr: nginx_connections_active > 500
+      - alert: APIHighLatency
+        expr: histogram_quantile(0.95, rate(api_http_request_duration_seconds_bucket[5m])) > 2
         for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "Koneksi aktif Nginx tinggi"
-          description: "{{ $value }} koneksi aktif saat ini."
+          summary: "API latency tinggi"
+          description: "95% request membutuhkan lebih dari 2 detik."
+
+      # ── Redis ─────────────────────────────────────
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis DOWN"
+          description: "Redis tidak dapat dijangkau."

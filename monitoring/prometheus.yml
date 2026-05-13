@@ -11,6 +11,19 @@ rule_files:
   - /etc/prometheus/alert.rules
 
 scrape_configs:
+
+  # ── Nginx metrics ──────────────────────────────────
   - job_name: "nginx"
     static_configs:
       - targets: ["nginx-exporter:9113"]
+
+  # ── API metrics (Node.js Express) ─────────────────
+  - job_name: "api"
+    static_configs:
+      - targets: ["api:4000"]
+    metrics_path: /metrics
+
+  # ── Redis metrics ──────────────────────────────────
+  - job_name: "redis"
+    static_configs:
+      - targets: ["redis-exporter:9121"]

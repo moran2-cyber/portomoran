@@ -1,96 +1,116 @@
-# portomoran
+# portomoran v2 — Full Stack Production
 
-Portofolio statis dengan full production stack — Docker + Cloudflare Tunnel + Prometheus + Grafana.
-
-## Struktur
-
-```
-portomoran/
-├── src/                         ← File HTML/CSS/JS Anda
-├── nginx/nginx.conf             ← Nginx config (di dalam container)
-├── monitoring/
-│   ├── prometheus.yml
-│   ├── alert.rules
-│   └── alertmanager.yml
-├── Dockerfile
-├── docker-compose.yml           ← Base (termasuk cloudflared)
-├── docker-compose.override.yml  ← Lokal (otomatis aktif)
-├── docker-compose.prod.yml      ← Production
-├── .github/workflows/deploy.yml ← CI/CD
-├── .env.example
-├── .gitignore
-└── hosts
-```
-
-## Cara kerja koneksi domain
-
-```
-User → Cloudflare (SSL otomatis) → cloudflared tunnel → container app
-```
-
-Tidak perlu buka port 80/443, tidak perlu Nginx di host, tidak perlu Certbot.
+**Stack:** Frontend (Nginx) · Backend (Node.js/Express) · PostgreSQL · Redis · Prometheus · Grafana · Cloudflare Tunnel · GitHub Actions CI/CD
 
 ---
 
-## Setup Cloudflare Tunnel (lakukan sekali)
+## Arsitektur
 
-1. Buka https://one.dash.cloudflare.com
-2. Masuk ke **Zero Trust → Networks → Tunnels**
-3. Klik **Create a tunnel** → beri nama `portomoran`
-4. Pilih connector **Docker** → **salin token** yang muncul
-5. Pada bagian **Public Hostname**, isi:
-   - Subdomain: `www` (atau kosong untuk apex domain)
-   - Domain: domain Anda
-   - Service: `http://app:80`
-6. Simpan
+```
+Internet
+   │
+Cloudflare Tunnel
+   ├── moran-porto.my.id          → Frontend (Nginx + HTML/CSS/JS)
+   └── api.moran-porto.my.id      → Backend (Node.js + Express)
 
-Token tersebut masukkan ke `.env` sebagai `CLOUDFLARE_TUNNEL_TOKEN`.
+Monitoring (akses via IP langsung):
+   ├── SERVER_IP:3000              → Grafana
+   └── SERVER_IP:9090              → Prometheus
+
+Docker Services:
+   ├── app          (Nginx frontend)
+   ├── api          (Node.js Express)
+   ├── db           (PostgreSQL)
+   ├── redis        (Caching)
+   ├── prometheus
+   ├── grafana
+   ├── alertmanager
+   ├── nginx-exporter
+   └── cloudflared
+```
 
 ---
 
-## Development lokal
+## API Endpoints
 
+| Method | Endpoint | Fungsi |
+|---|---|---|
+| GET | `/health` | Health check |
+| GET | `/metrics` | Prometheus metrics |
+| POST | `/api/contact` | Kirim pesan kontak |
+| GET | `/api/projects` | Ambil daftar projects |
+| GET | `/api/stats` | Statistik (contacts, projects) |
+
+---
+
+## Setup Production
+
+### 1. Tambah DNS record di Cloudflare
+
+| Type | Name | Content | Proxy |
+|---|---|---|---|
+| CNAME | `api` | `16244a0d-d471-4fec-ad83-50876beb56e2.cfargotunnel.com` | ✅ |
+
+### 2. Update cloudflared config di server
 ```bash
-cp .env.example .env
-# Lokal tidak butuh CLOUDFLARE_TUNNEL_TOKEN
-docker compose up
-# Buka http://localhost:8080
+cp cloudflared-config.yml /home/moran/.cloudflared/config.yml
+docker compose -f docker-compose.yml \
+               -f docker-compose.prod.yml \
+               up -d --no-deps --force-recreate cloudflared
 ```
 
-## Setup Production (lakukan sekali di server)
-
+### 3. Isi .env dan deploy
 ```bash
-# Clone repo
-git clone https://github.com/USERNAME/portomoran /opt/portomoran
 cd /opt/portomoran
-
-# Isi environment
 cp .env.example .env
-nano .env   # isi semua nilai, terutama CLOUDFLARE_TUNNEL_TOKEN
+nano .env   # isi semua nilai
 
-# Jalankan
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# Build image
+docker build -t ghcr.io/moran2-cyber/portomoran:latest .
+docker build -t ghcr.io/moran2-cyber/portomoran-api:latest ./api
+
+# Deploy semua
+docker compose -f docker-compose.yml \
+               -f docker-compose.prod.yml up -d
 ```
 
-Setelah ini domain Anda langsung bisa diakses.
+### 4. Akses monitoring
+```
+http://SERVER_IP:3000   → Grafana
+http://SERVER_IP:9090   → Prometheus
+```
 
-## Deploy berikutnya
+---
 
-Cukup push ke `main` — GitHub Actions otomatis build, push image, dan deploy ke server.
+## Development Lokal
 
-## GitHub Secrets yang dibutuhkan
+```bash
+cp .env.example .env
+docker compose up
 
-| Secret | Keterangan |
-|---|---|
-| `SERVER_HOST` | IP server |
-| `SERVER_USER` | User SSH |
-| `SSH_PRIVATE_KEY` | Private key SSH |
-| `DOMAIN` | Domain Anda (untuk health check) |
+# Akses:
+# http://localhost:8080  → Frontend
+# http://localhost:4000  → API
+# http://localhost:3000  → Grafana
+# http://localhost:9090  → Prometheus
+```
 
-## Akses monitoring
+---
 
-Tambahkan tunnel hostname baru di Cloudflare untuk Grafana:
-- Service: `http://grafana:3000`
-- Public hostname: `monitoring.yourdomain.com`
+## Contoh penggunaan API
 
+```javascript
+// Kirim pesan kontak dari frontend
+const response = await fetch('https://api.moran-porto.my.id/api/contact', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    name: 'Budi',
+    email: 'budi@email.com',
+    message: 'Halo Moran!'
+  })
+});
 
+// Ambil projects
+const projects = await fetch('https://api.moran-porto.my.id/api/projects');
+```

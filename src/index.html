@@ -1,304 +1,304 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portofolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Morando Malau // Portfolio</title>
+  <meta name="description" content="Portfolio Morando Malau — mahasiswa Universitas Nasional dengan pengalaman operator produksi dan minat pada DevOps serta Data Analyst." />
+  <meta name="author" content="Morando Malau" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
+  <div class="bg-grid"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
 
-  <!-- NAV -->
-  <nav id="nav">
-    <div class="nav-logo">MM</div>
-    <ul class="nav-links">
-      <li><a href="#about">Tentang</a></li>
-      <li><a href="#experience">Karier</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#education">Edu</a></li>
-      <li><a href="#contact">Kontak</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger">
-      <span></span><span></span>
-    </button>
-  </nav>
+  <header class="site-header">
+    <a href="#top" class="brand">
+      <span>Morando Malau</span>
+      <small>Portfolio</small>
+    </a>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about">Tentang</a>
-    <a href="#experience">Karier</a>
-    <a href="#skills">Skills</a>
-    <a href="#education">Edu</a>
-    <a href="#contact">Kontak</a>
-  </div>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-tag">Sistem Informasi · Universitas Nasional</div>
-    <h1>
-      <span class="name-first">Morando</span>
-      <span class="name-last">Malau</span>
-    </h1>
-    <p class="hero-sub">Data Analyst &nbsp;·&nbsp; DevOps Engineer &nbsp;·&nbsp; Full Stack Developer</p>
-    <p class="hero-bio">
-      Mahasiswa semester 7 yang memadukan 3 tahun pengalaman industri otomotif
-      dengan keahlian teknologi modern dari magang di PT Transportasi Jakarta.
-    </p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn-main">Hubungi Saya</a>
-      <a href="#experience" class="btn-line">Lihat Karier</a>
-    </div>
-    <div class="hero-chips">
-      <span>🚗 3+ thn Otomotif</span>
-      <span>📊 Data Analyst</span>
-      <span>⚙️ DevOps</span>
-      <span>🌐 Int'l Seminar</span>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="sec-label">01 · Tentang</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <h2>Bukan <em>perjalanan</em><br/>yang biasa.</h2>
-        <p>
-          Nama saya <strong>Morando Malau</strong> — mahasiswa Sistem Informasi semester 7 di Universitas Nasional, Jakarta. Saya memulai karier bukan dari bangku kuliah, melainkan dari lantai industri otomotif selama lebih dari <strong>tiga tahun</strong>.
-        </p>
-        <p>
-          Pengalaman itu membentuk cara saya berpikir: sistematis, tahan tekanan, berorientasi pada solusi nyata. Saat terjun ke teknologi, saya membawa mindset itu — dan berhasil. Magang di <strong>PT Transportasi Jakarta</strong> membuktikannya.
-        </p>
-        <p>
-          Saya juga pernah menjadi panitia <strong>seminar internasional</strong>, mengasah kepemimpinan dan komunikasi lintas budaya di luar kelas.
-        </p>
-      </div>
-      <div class="about-stats">
-        <div class="stat-box">
-          <span class="stat-n" data-to="3">0</span><sup>+</sup>
-          <span class="stat-l">Tahun Industri</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-n" data-to="6">0</span>
-          <span class="stat-l">Bulan Magang</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-n" data-to="1">0</span>
-          <span class="stat-l">Seminar Int'l</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-n" data-to="7">0</span>
-          <span class="stat-l">Semester</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE -->
-  <section id="experience" class="section sec-alt">
-    <div class="sec-label">02 · Karier</div>
-    <h2 class="sec-title">Jejak <em>Pengalaman</em></h2>
-    <div class="exp-list">
-
-      <div class="exp-item reveal">
-        <div class="exp-left">
-          <div class="exp-year">2024</div>
-          <div class="exp-dur">4 Bulan</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">DevOps Engineer Intern</div>
-          <div class="exp-co">PT Transportasi Jakarta · TransJakarta</div>
-          <p>Mengelola infrastruktur cloud, membangun pipeline CI/CD, containerization dengan Docker & Kubernetes, dan monitoring sistem real-time untuk layanan transportasi publik ibukota.</p>
-          <div class="exp-tags">
-            <span>Docker</span><span>Kubernetes</span><span>CI/CD</span>
-            <span>Linux</span><span>Cloud</span><span>Git</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item reveal">
-        <div class="exp-left">
-          <div class="exp-year">2024</div>
-          <div class="exp-dur">2 Bulan</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Data Analyst Intern</div>
-          <div class="exp-co">PT Transportasi Jakarta · TransJakarta</div>
-          <p>Menganalisis data operasional armada & penumpang, membangun dashboard untuk pengambilan keputusan manajemen menggunakan Python, SQL, dan Tableau.</p>
-          <div class="exp-tags">
-            <span>Python</span><span>SQL</span><span>Tableau</span>
-            <span>Pandas</span><span>ETL</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="exp-item reveal">
-        <div class="exp-left">
-          <div class="exp-year">2020–23</div>
-          <div class="exp-dur">3+ Tahun</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Profesional Industri Otomotif</div>
-          <div class="exp-co">Sektor Otomotif · Jakarta</div>
-          <p>Tiga tahun di industri otomotif membangun fondasi karakter: disiplin tinggi, problem-solving di bawah tekanan, dan manajemen operasional yang menjadi keunggulan kompetitif di dunia teknologi.</p>
-          <div class="exp-tags">
-            <span>Operasional</span><span>Manajemen</span><span>Problem Solving</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills" class="section">
-    <div class="sec-label">03 · Keahlian</div>
-    <h2 class="sec-title">Tech <em>Stack</em></h2>
-    <div class="skills-grid">
-
-      <div class="skill-group reveal">
-        <div class="sg-title">📊 Data & Analytics</div>
-        <div class="skill-bars">
-          <div class="sb"><div class="sb-top"><span>Python</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>SQL</span><span>82%</span></div><div class="sb-track"><div class="sb-fill" data-w="82"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Pandas</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Tableau</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Power BI</span><span>68%</span></div><div class="sb-track"><div class="sb-fill" data-w="68"></div></div></div>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="sg-title">⚙️ DevOps & Cloud</div>
-        <div class="skill-bars">
-          <div class="sb"><div class="sb-top"><span>Git</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Docker</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Linux</span><span>78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>CI/CD</span><span>72%</span></div><div class="sb-track"><div class="sb-fill" data-w="72"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Kubernetes</span><span>65%</span></div><div class="sb-track"><div class="sb-fill" data-w="65"></div></div></div>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="sg-title">🌐 Web & Lainnya</div>
-        <div class="skill-bars">
-          <div class="sb"><div class="sb-top"><span>MS Excel</span><span>88%</span></div><div class="sb-track"><div class="sb-fill" data-w="88"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>HTML/CSS</span><span>78%</span></div><div class="sb-track"><div class="sb-fill" data-w="78"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>JavaScript</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Manaj. Proyek</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
-          <div class="sb"><div class="sb-top"><span>Presentasi</span><span>82%</span></div><div class="sb-track"><div class="sb-fill" data-w="82"></div></div></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- EDUCATION -->
-  <section id="education" class="section sec-alt">
-    <div class="sec-label">04 · Pendidikan & Organisasi</div>
-    <h2 class="sec-title">Akademik & <em>Kontribusi</em></h2>
-    <div class="edu-grid">
-
-      <div class="edu-card reveal">
-        <div class="edu-icon">🎓</div>
-        <div class="edu-period">2021 — 2025</div>
-        <div class="edu-deg">S1 Sistem Informasi</div>
-        <div class="edu-school">Universitas Nasional · Jakarta</div>
-        <p>Mendalami rekayasa perangkat lunak, manajemen basis data, analisis sistem, dan infrastruktur TI. Semester 7, fokus pada data engineering.</p>
-        <span class="edu-chip">Semester 7 · Aktif</span>
-      </div>
-
-      <div class="edu-card reveal">
-        <div class="edu-icon">🌐</div>
-        <div class="edu-period">2023</div>
-        <div class="edu-deg">Committee — Seminar Internasional</div>
-        <div class="edu-school">Universitas Nasional · Kemahasiswaan</div>
-        <p>Panitia inti penyelenggaraan seminar internasional — koordinasi peserta, komunikasi dengan narasumber luar negeri, dan manajemen logistik acara berskala global.</p>
-        <span class="edu-chip chip-2">International · Committee</span>
-      </div>
-
-      <div class="edu-card reveal">
-        <div class="edu-icon">⚡</div>
-        <div class="edu-period">Soft Skills</div>
-        <div class="edu-deg">Kemampuan Lintas Industri</div>
-        <div class="edu-school">Otomotif · Teknologi · Akademik</div>
-        <p>Kepemimpinan, komunikasi lintas budaya, manajemen waktu, adaptabilitas tinggi, dan critical thinking yang terasah dari tiga dunia berbeda.</p>
-        <span class="edu-chip chip-3">Leadership · Adaptability</span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section contact-sec">
-    <div class="sec-label">05 · Kontak</div>
-    <div class="contact-wrap">
-      <div class="contact-left reveal">
-        <h2>Punya <em>ide</em>?<br/>Mari ngobrol.</h2>
-        <p>Terbuka untuk kolaborasi proyek, diskusi teknis, magang, atau posisi full-time. Jangan ragu untuk menghubungi.</p>
-        <div class="clinks">
-          <a href="mailto:morando.malau@email.com" class="clink">
-            <span class="clink-icon">✉</span>
-            <div><small>Email</small><strong>morando.malau@email.com</strong></div>
-          </a>
-          <a href="https://linkedin.com/in/morandoms" target="_blank" class="clink">
-            <span class="clink-icon">in</span>
-            <div><small>LinkedIn</small><strong>linkedin.com/in/morandoms</strong></div>
-          </a>
-          <a href="https://github.com/morandoms" target="_blank" class="clink">
-            <span class="clink-icon">⌥</span>
-            <div><small>GitHub</small><strong>github.com/morandoms</strong></div>
-          </a>
-        </div>
-        <div class="cloc">
-          <span class="cloc-dot"></span>Jakarta, Indonesia · WIB (UTC+7)
-        </div>
-      </div>
-
-      <form class="cform reveal" id="cform" novalidate>
-        <div class="cfield">
-          <label for="cname">Nama Lengkap</label>
-          <input type="text" id="cname" placeholder="Nama kamu..." required />
-        </div>
-        <div class="cfield">
-          <label for="cemail">Email</label>
-          <input type="email" id="cemail" placeholder="email@domain.com" required />
-        </div>
-        <div class="cfield">
-          <label for="csubj">Keperluan</label>
-          <select id="csubj">
-            <option value="">Pilih keperluan...</option>
-            <option>Kolaborasi Proyek</option>
-            <option>Kesempatan Magang</option>
-            <option>Full-time Position</option>
-            <option>Diskusi Teknis</option>
-            <option>Lainnya</option>
-          </select>
-        </div>
-        <div class="cfield">
-          <label for="cmsg">Pesan</label>
-          <textarea id="cmsg" placeholder="Ceritakan keperluan kamu..." required></textarea>
-        </div>
-        <button type="submit" id="csend">Kirim Pesan →</button>
-        <div class="cfeedback" id="cfeedback"></div>
-      </form>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div>
-      <strong>Morando Malau</strong>
-      <span>Sistem Informasi · Jakarta · 2025</span>
-    </div>
-    <div class="footer-links">
-      <a href="#home">↑ Atas</a>
+    <nav class="main-nav">
       <a href="#about">About</a>
+      <a href="#focus">Focus</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
       <a href="#contact">Contact</a>
-    </div>
-    <div class="footer-copy">Dibuat dengan ♥</div>
-  </footer>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-left reveal">
+        <div class="status-line">
+          <span></span>
+          Available for internship / junior opportunity
+        </div>
+
+        <h1>
+          Morando Malau
+          <em>DevOps & Data Analyst Learner</em>
+        </h1>
+
+        <p class="lead">
+          Mahasiswa semester 7 Universitas Nasional dengan pengalaman 3 tahun sebagai operator produksi
+          di industri otomotif. Saat ini fokus membangun skill di DevOps, Linux infrastructure,
+          CI/CD, monitoring, SQL, Python, dan dashboarding.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn primary">Lihat Project</a>
+          <a href="#contact" class="btn secondary">Hubungi Saya</a>
+        </div>
+      </div>
+
+      <div class="hero-right reveal delay-1">
+        <div class="terminal-card">
+          <div class="terminal-top">
+            <span></span><span></span><span></span>
+            <small>profile.log</small>
+          </div>
+          <div class="terminal-body" id="terminalBoot">
+            <p>loading profile...</p>
+          </div>
+        </div>
+
+        <div class="quick-facts">
+          <div>
+            <small>Current Status</small>
+            <strong>Student / Intern Level</strong>
+          </div>
+          <div>
+            <small>Production Experience</small>
+            <strong>3 Years</strong>
+          </div>
+          <div>
+            <small>Direction</small>
+            <strong>DevOps + Data</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section-shell about-section">
+      <div class="section-heading reveal">
+        <span class="section-label">About</span>
+        <h2>Berangkat dari pengalaman produksi, lalu belajar memahami sistem dari sisi teknologi dan data.</h2>
+      </div>
+
+      <div class="about-grid">
+        <p class="reveal">
+          Saya tidak memposisikan diri sebagai senior engineer. Saat ini saya masih berkembang,
+          tetapi pengalaman di lingkungan produksi membuat saya terbiasa dengan disiplin kerja,
+          proses operasional, target, efisiensi, dan pentingnya sistem yang stabil.
+        </p>
+        <p class="reveal delay-1">
+          Dari pengalaman tersebut, saya tertarik pada DevOps dan Data Analyst karena keduanya
+          dekat dengan proses nyata: bagaimana sistem dijalankan, dipantau, diperbaiki, dan bagaimana
+          data membantu mengambil keputusan yang lebih baik.
+        </p>
+      </div>
+    </section>
+
+    <section id="focus" class="section-shell focus-section">
+      <div class="section-heading reveal">
+        <span class="section-label">Learning Focus</span>
+        <h2>Area yang sedang saya bangun secara serius.</h2>
+      </div>
+
+      <div class="focus-grid">
+        <article class="focus-card reveal">
+          <span>01</span>
+          <h3>DevOps Fundamentals</h3>
+          <p>CI/CD, Docker, Linux server, deployment workflow, basic cloud architecture, automation, dan monitoring.</p>
+          <ul>
+            <li>GitHub Actions pipeline</li>
+            <li>Docker & Docker Compose</li>
+            <li>Nginx reverse proxy</li>
+            <li>Prometheus & Grafana</li>
+          </ul>
+        </article>
+
+        <article class="focus-card reveal delay-1">
+          <span>02</span>
+          <h3>Data Analyst Fundamentals</h3>
+          <p>SQL, Python, dashboarding, business intelligence, data cleaning, visualisasi, dan data storytelling.</p>
+          <ul>
+            <li>Query dan analisis data</li>
+            <li>Dashboard KPI</li>
+            <li>Excel / Power BI workflow</li>
+            <li>Insight operasional</li>
+          </ul>
+        </article>
+
+        <article class="focus-card reveal delay-2">
+          <span>03</span>
+          <h3>Operational Mindset</h3>
+          <p>Pengalaman operator produksi membantu saya memahami disiplin, proses, efisiensi, dan dampak downtime.</p>
+          <ul>
+            <li>Proses produksi</li>
+            <li>Quality awareness</li>
+            <li>Kerja terstruktur</li>
+            <li>Problem solving lapangan</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section-shell experience-section">
+      <div class="section-heading reveal">
+        <span class="section-label">Experience</span>
+        <h2>3 tahun pengalaman sebagai operator produksi di industri otomotif.</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div>
+            <small>Automotive Industry</small>
+            <h3>Production Operator</h3>
+            <p>
+              Terlibat dalam aktivitas produksi, mengikuti standar operasional, menjaga konsistensi proses,
+              memahami alur kerja industri, dan bekerja dengan target kualitas serta efisiensi.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item reveal delay-1">
+          <div class="timeline-marker"></div>
+          <div>
+            <small>Operational Learning</small>
+            <h3>Process, Discipline, and Reliability</h3>
+            <p>
+              Pengalaman ini membentuk cara berpikir saya: sistem harus jelas, proses harus bisa diikuti,
+              masalah harus bisa dilacak, dan perbaikan kecil bisa berdampak besar pada operasional.
+            </p>
+          </div>
+        </article>
+
+        <article class="timeline-item reveal delay-2">
+          <div class="timeline-marker"></div>
+          <div>
+            <small>Career Direction</small>
+            <h3>Transition to DevOps and Data</h3>
+            <p>
+              Dari pengalaman produksi, saya mulai membangun skill teknis untuk memahami deployment,
+              monitoring, otomasi, analisis data, dan dashboard sebagai bekal masuk ke dunia teknologi.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="section-shell projects-section">
+      <div class="section-heading reveal">
+        <span class="section-label">Selected Projects</span>
+        <h2>Project belajar yang dibuat untuk memahami workflow nyata.</h2>
+      </div>
+
+      <div class="project-list">
+        <article class="project-row reveal">
+          <div class="project-index">01</div>
+          <div>
+            <h3>Portfolio Website Deployment</h3>
+            <p>Membuat website portfolio static, menjalankan dengan Docker, dan menyiapkan workflow deployment sederhana.</p>
+          </div>
+          <div class="project-tags">
+            <span>HTML</span><span>CSS</span><span>Docker</span><span>Nginx</span>
+          </div>
+        </article>
+
+        <article class="project-row reveal delay-1">
+          <div class="project-index">02</div>
+          <div>
+            <h3>CI/CD Practice Pipeline</h3>
+            <p>Latihan pipeline menggunakan GitHub Actions untuk memahami checkout, build, deploy, dan restart service.</p>
+          </div>
+          <div class="project-tags">
+            <span>GitHub Actions</span><span>Linux</span><span>Docker Compose</span>
+          </div>
+        </article>
+
+        <article class="project-row reveal delay-2">
+          <div class="project-index">03</div>
+          <div>
+            <h3>Monitoring Lab</h3>
+            <p>Eksperimen monitoring service menggunakan Prometheus dan Grafana untuk membaca status sistem secara visual.</p>
+          </div>
+          <div class="project-tags">
+            <span>Prometheus</span><span>Grafana</span><span>Metrics</span>
+          </div>
+        </article>
+
+        <article class="project-row reveal">
+          <div class="project-index">04</div>
+          <div>
+            <h3>Operational Dashboard Concept</h3>
+            <p>Konsep dashboard untuk melihat KPI proses, tren, dan insight sederhana dari data operasional.</p>
+          </div>
+          <div class="project-tags">
+            <span>SQL</span><span>Python</span><span>Power BI</span><span>Excel</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack" class="section-shell stack-section">
+      <div class="section-heading reveal">
+        <span class="section-label">Technical Stack</span>
+        <h2>Tools yang sedang dan pernah saya gunakan.</h2>
+      </div>
+
+      <div class="stack-table reveal">
+        <div><span>Infrastructure</span><strong>Linux, Nginx, SSH, basic server operation</strong></div>
+        <div><span>DevOps</span><strong>Git, GitHub Actions, Docker, Docker Compose, CI/CD basic</strong></div>
+        <div><span>Monitoring</span><strong>Prometheus, Grafana, metrics dashboard</strong></div>
+        <div><span>Data</span><strong>SQL, Python, Excel, Power BI, dashboarding</strong></div>
+        <div><span>Frontend</span><strong>HTML, CSS, JavaScript</strong></div>
+        <div><span>Soft Skill</span><strong>Discipline, process awareness, documentation, consistency</strong></div>
+      </div>
+    </section>
+
+    <section class="section-shell values-section">
+      <div class="section-heading reveal">
+        <span class="section-label">Work Principles</span>
+        <h2>Prinsip kerja yang saya pegang.</h2>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-card reveal">Belajar dari proses nyata</div>
+        <div class="value-card reveal delay-1">Kerjakan dengan rapi dan konsisten</div>
+        <div class="value-card reveal delay-2">Pahami dasar sebelum memakai tools</div>
+        <div class="value-card reveal">Gunakan data sebelum mengambil kesimpulan</div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-shell contact-section">
+      <div class="contact-panel reveal">
+        <span class="section-label">Contact</span>
+        <h2>Saya terbuka untuk internship, junior role, atau kesempatan belajar di bidang DevOps dan Data Analyst.</h2>
+        <div class="hero-actions">
+          <a href="mailto:morandomalau2@gmail.com" class="btn primary">Email Morando</a>
+          <a href="#" class="btn secondary">Download CV</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="js/main.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/metrics.js"></script>
+  <script src="js/interactions.js"></script>
 </body>
 </html>

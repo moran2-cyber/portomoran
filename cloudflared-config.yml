@@ -1,0 +1,14 @@
+tunnel: 16244a0d-d471-4fec-ad83-50876beb56e2
+credentials-file: /etc/cloudflared/16244a0d-d471-4fec-ad83-50876beb56e2.json
+
+ingress:
+  # Frontend
+  - hostname: moran-porto.my.id
+    service: http://localhost:8080
+
+  # Backend API
+  - hostname: api.moran-porto.my.id
+    service: http://localhost:4000
+
+  # Catch-all
+  - service: http_status:404

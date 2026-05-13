@@ -1,0 +1,262 @@
+.status-line,
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.status-line span,
+.section-label::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--cyan);
+  box-shadow: 0 0 16px rgba(98,217,255,0.65);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 0.9;
+}
+
+h1 em {
+  display: block;
+  margin-top: 14px;
+  color: var(--soft);
+  font-style: normal;
+  font-size: clamp(20px, 2.6vw, 34px);
+}
+
+.section-heading {
+  max-width: 820px;
+  margin-bottom: 34px;
+}
+
+.section-heading h2,
+.contact-panel h2 {
+  font-size: clamp(32px, 4vw, 58px);
+  line-height: 1;
+}
+
+.lead,
+.about-grid p,
+.focus-card p,
+.timeline-item p,
+.project-row p {
+  color: var(--soft);
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  transition: 0.25s ease;
+}
+
+.btn.primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn.secondary {
+  border: 1px solid var(--line);
+  color: var(--soft);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.terminal-card,
+.quick-facts div,
+.focus-card,
+.timeline-item,
+.project-row,
+.value-card,
+.contact-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+    rgba(13, 17, 22, 0.88);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.32);
+}
+
+.terminal-top {
+  height: 46px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.terminal-top span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--steel);
+}
+
+.terminal-top span:nth-child(2) {
+  background: var(--amber);
+}
+
+.terminal-top span:nth-child(3) {
+  background: var(--cyan);
+}
+
+.terminal-top small {
+  margin-left: 8px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.terminal-body {
+  padding: 24px;
+  min-height: 320px;
+  color: #c8d2da;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+.terminal-body p {
+  margin: 0 0 8px;
+}
+
+.quick-facts div {
+  padding: 18px;
+}
+
+.quick-facts small,
+.focus-card span,
+.timeline-item small,
+.project-index,
+.stack-table span {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+
+.quick-facts strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.focus-card {
+  padding: 24px;
+}
+
+.focus-card h3 {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.focus-card ul {
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 18px;
+  padding: 24px;
+}
+
+.timeline-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 18px rgba(98,217,255,0.8);
+  margin-top: 6px;
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 0.7fr;
+  gap: 22px;
+  align-items: center;
+  padding: 24px;
+  transition: 0.25s ease;
+}
+
+.project-row:hover {
+  transform: translateX(4px);
+  border-color: rgba(98,217,255,0.32);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.project-tags span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--soft);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.stack-table span,
+.stack-table strong {
+  padding: 20px;
+}
+
+.stack-table strong {
+  color: var(--soft);
+  font-weight: 500;
+  border-left: 1px solid var(--line);
+}
+
+.value-card {
+  min-height: 150px;
+  padding: 22px;
+  display: flex;
+  align-items: end;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.contact-panel {
+  padding: 48px;
+}

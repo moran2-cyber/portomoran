@@ -1,0 +1,56 @@
+@media (max-width: 960px) {
+  .main-nav {
+    display: none;
+  }
+
+  .hero,
+  .about-grid,
+  .focus-grid,
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-row {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-table div {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-table strong {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 640px) {
+  .section-shell {
+    width: min(100% - 28px, 1120px);
+    padding: 78px 0;
+  }
+
+  .site-header {
+    width: calc(100% - 24px);
+  }
+
+  .hero {
+    padding-top: 120px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .contact-panel {
+    padding: 28px;
+  }
+}

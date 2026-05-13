@@ -1,7 +1,7 @@
 global:
   resolve_timeout: 5m
   smtp_smarthost: "smtp.gmail.com:587"
-  smtp_from: "alert@${DOMAIN}"
+  smtp_from: "alert@moran-porto.my.id"
   smtp_auth_username: "${ALERT_EMAIL}"
   smtp_auth_password: "${ALERT_EMAIL_PASSWORD}"
   smtp_require_tls: true
