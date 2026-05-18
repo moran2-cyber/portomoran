@@ -1,5 +1,36 @@
 services:
 
+
+  # Node Exporter (CPU, Memory, Disk server)
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: portomoran_node_exporter
+    restart:  unless-stopped
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rottfs:ro
+    networks:
+      - portomoran_net
+  
+
+  # Reids eXPORTER (METRICS REDIS)
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: portomoran_redis_exporrter
+    restart: unless-stopped
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+    networks:
+      - portomoran_net
+    depends_on:
+      - redis
+
   # ── Frontend (Nginx + HTML/CSS/JS) ────────────────
   app:
     image: ghcr.io/moran2-cyber/portomoran:${IMAGE_TAG:-latest}
